@@ -12,6 +12,10 @@ Trigger a deployed Codika workflow and optionally poll for results.
 - Use case is deployed (`project.json` contains `devProcessInstanceId`)
 - Authenticated via `codika-helper login` (check with `codika-helper whoami`) or `CODIKA_API_KEY` env var
 
+## Resolving the Workflow ID
+
+The `workflowId` is the `workflowTemplateId` from `config.ts`. If the user provides a use case folder path, read `config.ts` to find the available workflow IDs and their trigger types. Only workflows with `trigger.type === 'http'` can be triggered with this command.
+
 ## Using the CLI (Recommended)
 
 ### Basic trigger (fire-and-forget)
@@ -24,11 +28,17 @@ Returns immediately with an `executionId`. The `processInstanceId` is auto-resol
 
 ### With payload
 
-```bash
-# Inline JSON
-codika-helper trigger <workflowId> --payload '{"field": "value"}'
+Use a heredoc with `--payload-file -` to pass JSON via stdin. This avoids shell escaping issues with inline JSON.
 
-# From a JSON file
+```bash
+codika-helper trigger <workflowId> --payload-file - <<'EOF'
+{"field": "value", "nested": {"key": "no escaping needed"}}
+EOF
+```
+
+For pre-existing JSON files, pass the path directly:
+
+```bash
 codika-helper trigger <workflowId> --payload-file input.json
 ```
 
@@ -36,7 +46,9 @@ codika-helper trigger <workflowId> --payload-file input.json
 
 ```bash
 # Wait for completion (default timeout: 120s)
-codika-helper trigger <workflowId> --payload-file input.json --poll
+codika-helper trigger <workflowId> --poll --payload-file - <<'EOF'
+{"field": "value"}
+EOF
 
 # Custom timeout
 codika-helper trigger <workflowId> --poll --timeout 60
@@ -47,18 +59,17 @@ codika-helper trigger <workflowId> --poll -o result.json
 
 ### All options
 
-| Option                       | Description                                           |
-| ---------------------------- | ----------------------------------------------------- |
-| `--process-instance-id <id>` | Explicit process instance ID (overrides project.json) |
-| `--path <path>`              | Path to use case folder with project.json             |
-| `--payload <json>`           | Inline JSON payload string                            |
-| `--payload-file <path>`      | Read payload from a JSON file                         |
-| `--poll`                     | Wait for execution to complete                        |
-| `--timeout <seconds>`        | Max poll time (default: 120)                          |
-| `-o, --output <path>`        | Save result to file (with --poll)                     |
-| `--api-url <url>`            | Override API URL                                      |
-| `--api-key <key>`            | Override API key                                      |
-| `--json`                     | Structured JSON output                                |
+| Option                       | Description                                              |
+| ---------------------------- | -------------------------------------------------------- |
+| `--process-instance-id <id>` | Explicit process instance ID (overrides project.json)    |
+| `--path <path>`              | Path to use case folder with project.json                |
+| `--payload-file <path>`      | Read payload from a JSON file, or `-` for stdin          |
+| `--poll`                     | Wait for execution to complete                           |
+| `--timeout <seconds>`        | Max poll time (default: 120)                             |
+| `-o, --output <path>`        | Save result to file (with --poll)                        |
+| `--api-url <url>`            | Override API URL                                         |
+| `--api-key <key>`            | Override API key                                         |
+| `--json`                     | Structured JSON output                                   |
 
 ### Process instance ID resolution
 
@@ -73,7 +84,9 @@ The command resolves `processInstanceId` automatically:
 ```bash
 # From inside a use case folder (project.json auto-detected)
 cd my-use-case/
-codika-helper trigger proposal-generation --payload '{"transcript": "..."}'
+codika-helper trigger proposal-generation --poll --payload-file - <<'EOF'
+{"transcript": "Meeting notes from client call..."}
+EOF
 
 # Explicit path
 codika-helper trigger proposal-generation --path ./my-use-case --poll
@@ -86,7 +99,9 @@ codika-helper trigger proposal-generation \
 # Explicit process instance ID
 codika-helper trigger proposal-generation \
   --process-instance-id abc-123 \
-  --payload '{"text": "test"}'
+  --poll --payload-file - <<'EOF'
+{"text": "test"}
+EOF
 ```
 
 ## Interpreting Results

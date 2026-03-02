@@ -106,6 +106,10 @@ codika-helper deploy use-case <path> [options]
 | `--major` | `major_bump` | major | Major bump (1.1.0 → 2.0.0) |
 | `--version <X.Y>` | `explicit` | patch | Deploy to explicit API version |
 
+**Important:** Use `--patch`, `--minor`, or `--major` for version bumping (not `--version-strategy`, which is only for `deploy process-data-ingestion`). The `--version <X.Y>` flag sets an explicit API version.
+
+**Note:** The global CLI version flag is `-V` / `--cli-version`, so `--version` on this subcommand is reserved for specifying the deployment version.
+
 ### Other Options
 
 | Flag | Description |

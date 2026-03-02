@@ -19,6 +19,16 @@ Fetch a deployed use case from the Codika platform with all its metadata documen
 - `codika-helper` CLI installed and authenticated (see `setup-codika` skill)
 - A project ID for the deployed use case
 
+## Resolving the Project ID
+
+The CLI requires a **project ID**, not a folder path. If the user provides a use case folder path instead, read `project.json` from that folder to get the `projectId`:
+
+```bash
+# Read the projectId from the use case folder
+cat <use-case-path>/project.json
+# Then use the projectId value in the command below
+```
+
 ## Command
 
 ```bash
@@ -29,18 +39,20 @@ codika-helper get use-case <projectId> [outputPath] [options]
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `<projectId>` | Yes | The project ID of the deployed use case |
+| `<projectId>` | Yes | The project ID of the deployed use case (from `project.json`) |
 | `[outputPath]` | No | Directory to write files to (defaults to `./<projectId>`) |
 
 ### Options
 
 | Flag | Description |
 |------|-------------|
-| `--version <version>` | Fetch a specific version instead of the latest |
+| `--version <version>` | Fetch a specific version in `X.Y` format (fetches latest if omitted) |
 | `--list` | List documents only without downloading |
 | `--api-url <url>` | Override API URL |
 | `--api-key <key>` | Override API key |
 | `--json` | Output result as JSON |
+
+**Note:** Use `--version` (not `--cli-version`). The global CLI version flag is `-V` / `--cli-version`, so `--version` on subcommands is reserved for specifying the use case version.
 
 ## Examples
 
@@ -62,10 +74,16 @@ codika-helper get use-case my-project-id ./restored --version 1.0
 codika-helper get use-case my-project-id --list
 ```
 
-**JSON output for scripting:**
+**List with JSON output:**
 
 ```bash
 codika-helper get use-case my-project-id --list --json
+```
+
+**Check CLI version (not use case version):**
+
+```bash
+codika-helper -V
 ```
 
 ## Expected Output
@@ -74,28 +92,33 @@ codika-helper get use-case my-project-id --list --json
 
 ```
 Fetching use case my-project-id...
+  Output:  ./restored
 
-  Downloaded files:
-    config.ts
-    workflows/main-workflow.json
-    workflows/sub-workflow.json
-    version.json
+  ✓ config.ts
+  ✓ workflows/main-workflow.json
+  ✓ workflows/sub-workflow.json
 
-  Total:       4 files
-  Output:      ./restored
+✓ Use Case Downloaded Successfully
+
+  Project:  my-project-id
+  Version:  1.0
+  Output:   ./restored
+  Files:    3 file(s) downloaded
 ```
 
 **List mode:**
 
 ```
-Documents for my-project-id:
+✓ Found 3 document(s)
 
-  config.ts
-  workflows/main-workflow.json
-  workflows/sub-workflow.json
-  version.json
+  Project:      my-project-id
+  Version:      1.0
+  Organization: org-456
 
-  Total: 4 documents
+  Documents:
+    config.ts  (8.1 KB, text/typescript)
+    workflows/main-workflow.json  (5.8 KB, application/json)
+    workflows/sub-workflow.json  (2.0 KB, application/json)
 ```
 
 ## Error Handling
@@ -104,7 +127,7 @@ Documents for my-project-id:
 |-------|-------|-----|
 | "API key is required" | Not authenticated | Run `codika-helper login` (see `setup-codika` skill) |
 | "Project not found" | Invalid or non-existent project ID | Verify the project ID from the Codika dashboard or `project.json` |
-| "Invalid version format" | Malformed `--version` value | Use semantic version format (e.g., `1.0`, `2.1.0`) |
+| "Invalid version format" | Malformed `--version` value | Use `X.Y` format (e.g., `1.0`, `2.1`) |
 | 401 / Unauthorized | Invalid or expired API key | Re-run `codika-helper login` |
 
 ## Authentication
