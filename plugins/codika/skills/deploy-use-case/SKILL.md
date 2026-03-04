@@ -188,7 +188,9 @@ codika-helper deploy use-case ./use-cases/marketplace/my-use-case --json
    - `version.json` is updated with the new local version
    - Deployment is archived in `deployments/{projectId}/process/{apiVersion}/`
    - `project-info.json` is updated with the API→local version mapping
-   - `project.json` is updated with `devProcessInstanceId`
+   - `project.json` is updated with `devProcessInstanceId` and `deployments` map (version → {templateId, createdAt})
+
+The `deployments` map in `project.json` is used by `codika-helper publish` to promote a deployment to production. See the `publish-use-case` skill.
 
 ## Version Tracking
 

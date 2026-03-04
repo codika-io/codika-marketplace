@@ -35,7 +35,13 @@ Skills for the `codika-helper` CLI (`@codika-io/helper-sdk`). Pure documentation
 | `setup-codika` | Install the CLI globally and run `codika-helper login` |
 | `create-project` | Create a project via `codika-helper project create` |
 | `deploy-use-case` | Validate then deploy via `codika-helper verify` + `codika-helper deploy` |
+| `publish-use-case` | Publish a deployment to production via `codika-helper publish` |
 | `verify-use-case` | Validate workflows via `codika-helper verify use-case` |
+| `init-use-case` | Scaffold a new use case via `codika-helper init` |
+| `fetch-use-case` | Download a deployed use case via `codika-helper get use-case` |
+| `trigger-workflow` | Trigger a workflow via `codika-helper trigger` |
+| `get-execution` | Fetch execution details via `codika-helper get execution` |
+| `list-executions` | List recent executions via `codika-helper list executions` |
 
 ## Conventions
 
