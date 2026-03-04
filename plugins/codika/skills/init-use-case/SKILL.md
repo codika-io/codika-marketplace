@@ -41,6 +41,7 @@ codika-helper init <path> [options]
 | `--no-project`         | Skip project creation on the platform | Creates project    |
 | `--project-id <id>`    | Use existing project ID (no API call) | —                  |
 | `--no-install`         | Skip npm install after scaffolding    | Runs npm install   |
+| `--project-file <path>` | Custom filename for the project file | `project.json`     |
 | `--api-url <url>`      | Override API URL                      | —                  |
 | `--api-key <key>`      | Override API key                      | —                  |
 | `--json`               | Output result as JSON                 | —                  |
@@ -77,7 +78,7 @@ codika-helper init ./my-use-case --name "My Automation" --no-project --json
 my-use-case/
   config.ts                         # Deployment configuration (3 workflows)
   version.json                      # Version tracking (starts at 1.0.0)
-  project.json                      # Project ID (only if project created or --project-id)
+  project.json                      # Project ID (only if project created or --project-id). Filename changes if --project-file is used.
   package.json                      # Dependencies (@codika-io/helper-sdk)
   tsconfig.json                     # TypeScript config for IDE support
   .gitignore                        # Ignores node_modules/

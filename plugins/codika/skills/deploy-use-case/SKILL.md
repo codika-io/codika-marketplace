@@ -66,15 +66,16 @@ my-use-case/
 The project ID (deployment target) is resolved in this order:
 
 1. `--project-id` flag (highest priority)
-2. `project.json` file in the use case folder
+2. `--project-file` custom project file path
+3. Default `project.json` file in the use case folder
 
 ### API Key Resolution (Org-Aware)
 
-When `project.json` contains an `organizationId`, the CLI automatically selects the profile matching that organization — even if a different profile is currently active. This means you can work across multiple organizations without manually switching profiles.
+When the project file (default `project.json`, or the file specified by `--project-file`) contains an `organizationId`, the CLI automatically selects the profile matching that organization — even if a different profile is currently active. This means you can work across multiple organizations without manually switching profiles.
 
 1. `--api-key` flag (highest priority)
 2. `CODIKA_API_KEY` environment variable
-3. Profile matching `organizationId` from `project.json`
+3. Profile matching `organizationId` from the project file (`--project-file` or default `project.json`)
 4. Active profile in config file
 
 When auto-selecting, the CLI prints: `Using profile "acme-corp" (matches project organization)`
@@ -114,7 +115,8 @@ codika-helper deploy use-case <path> [options]
 
 | Flag | Description |
 |------|-------------|
-| `--project-id <id>` | Override project ID (skips `project.json` and `config.ts`) |
+| `--project-id <id>` | Override project ID (skips project file and `config.ts`) |
+| `--project-file <path>` | Custom project file path (default: `project.json`) |
 | `--api-url <url>` | Override API URL |
 | `--api-key <key>` | Override API key |
 | `--additional-file <abs:rel>` | Add extra file (repeatable). Format: `absolutePath:relativePath` |

@@ -146,7 +146,7 @@ When commands need an API key or URL, they check in this order:
 3. Active profile in config file
 4. Production default (base URL only)
 
-For deploy commands, if the use case's `project.json` contains an `organizationId`, the CLI automatically selects the profile matching that organization — even if it's not the currently active profile.
+For deploy commands, if the use case's project file (default `project.json`, or the file specified by `--project-file`) contains an `organizationId`, the CLI automatically selects the profile matching that organization — even if it's not the currently active profile.
 
 ## Error Handling
 

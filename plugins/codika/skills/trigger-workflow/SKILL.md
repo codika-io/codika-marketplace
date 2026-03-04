@@ -61,8 +61,9 @@ codika-helper trigger <workflowId> --poll -o result.json
 
 | Option                       | Description                                              |
 | ---------------------------- | -------------------------------------------------------- |
-| `--process-instance-id <id>` | Explicit process instance ID (overrides project.json)    |
-| `--path <path>`              | Path to use case folder with project.json                |
+| `--process-instance-id <id>` | Explicit process instance ID (overrides project file)    |
+| `--path <path>`              | Path to use case folder with project file                |
+| `--project-file <path>`      | Custom project file path (default: `project.json`)       |
 | `--payload-file <path>`      | Read payload from a JSON file, or `-` for stdin          |
 | `--poll`                     | Wait for execution to complete                           |
 | `--timeout <seconds>`        | Max poll time (default: 120)                             |
@@ -76,8 +77,8 @@ codika-helper trigger <workflowId> --poll -o result.json
 The command resolves `processInstanceId` automatically:
 
 1. `--process-instance-id` flag (highest priority)
-2. `project.json` in `--path` directory
-3. `project.json` in current directory
+2. Project file (`--project-file` or default `project.json`) in `--path` directory
+3. Project file (`--project-file` or default `project.json`) in current directory
 
 ### Examples
 

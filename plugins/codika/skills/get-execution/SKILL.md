@@ -42,7 +42,8 @@ codika-helper get execution <executionId> [options]
 | Flag | Description |
 |------|-------------|
 | `--process-instance-id <id>` | Explicit process instance ID |
-| `--path <path>` | Path to a use case folder containing `project.json` |
+| `--path <path>` | Path to a use case folder containing the project file |
+| `--project-file <path>` | Custom project file path (default: `project.json`) |
 | `--deep` | Recursively fetch sub-workflow executions |
 | `--slim` | Strip noise (`pairedItem`, `workflowData`) for cleaner output |
 | `-o <path>` / `--output <path>` | Save output to a file instead of stdout |
@@ -55,8 +56,8 @@ codika-helper get execution <executionId> [options]
 The process instance ID is resolved in this order:
 
 1. `--process-instance-id` flag (highest priority)
-2. `project.json` in the `--path` directory (uses `devProcessInstanceId`)
-3. `project.json` in the current directory
+2. Project file (`--project-file` or default `project.json`) in the `--path` directory (uses `devProcessInstanceId`)
+3. Project file (`--project-file` or default `project.json`) in the current directory
 
 ## Examples
 

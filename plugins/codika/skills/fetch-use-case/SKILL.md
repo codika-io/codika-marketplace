@@ -21,11 +21,13 @@ Fetch a deployed use case from the Codika platform with all its metadata documen
 
 ## Resolving the Project ID
 
-The CLI requires a **project ID**, not a folder path. If the user provides a use case folder path instead, read `project.json` from that folder to get the `projectId`:
+The CLI requires a **project ID**, not a folder path. If the user provides a use case folder path instead, read the project file from that folder to get the `projectId`. The project file is `project.json` by default, but the user may have used `--project-file` during init or deploy to store it under a different name:
 
 ```bash
-# Read the projectId from the use case folder
+# Read the projectId from the use case folder (default project.json)
 cat <use-case-path>/project.json
+# Or from a custom project file
+cat <use-case-path>/custom-project.json
 # Then use the projectId value in the command below
 ```
 

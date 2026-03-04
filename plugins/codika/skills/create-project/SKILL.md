@@ -35,7 +35,8 @@ codika-helper project create --name "My Project" [options]
 | `--description <desc>` | Project description |
 | `--template-id <id>` | Template ID (defaults to platform default) |
 | `--organization-id <id>` | Organization ID (required for admin keys, derived from org API keys) |
-| `--path <dir>` | Write `project.json` into this directory after creation (links the project to a use case folder) |
+| `--path <dir>` | Write the project file into this directory after creation (links the project to a use case folder) |
+| `--project-file <path>` | Custom filename for project file (default: `project.json`) |
 | `--api-url <url>` | Override API URL |
 | `--api-key <key>` | Override API key |
 | `--json` | Output result as JSON |
