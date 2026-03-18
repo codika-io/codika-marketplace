@@ -20,6 +20,8 @@ This is a **marketplace** — it contains multiple independent plugins, each wit
 │           ├── deploy-use-case/
 │           ├── deploy-data-ingestion/
 │           ├── deploy-documents/
+│           ├── publish-use-case/
+│           ├── redeploy-use-case/
 │           └── verify-use-case/
 ├── README.md
 ├── CLAUDE.md
@@ -40,6 +42,7 @@ Skills for the `codika` CLI (`@codika-io/helper-sdk`). Pure documentation — no
 | `deploy-data-ingestion` | Deploy data ingestion config via `codika deploy process-data-ingestion` |
 | `deploy-documents` | Upload stage documents via `codika deploy documents` |
 | `publish-use-case` | Publish a deployment to production via `codika publish` |
+| `redeploy-use-case` | Redeploy with parameter changes via `codika redeploy` |
 | `verify-use-case` | Validate workflows via `codika verify use-case` |
 | `init-use-case` | Scaffold a new use case via `codika init` |
 | `fetch-use-case` | Download a deployed use case via `codika get use-case` |
