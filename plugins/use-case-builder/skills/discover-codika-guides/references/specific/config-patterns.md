@@ -288,13 +288,13 @@ For workflows called by other workflows:
   type: 'subworkflow' as const,
   title: 'Called by Parent Workflow',
   description: 'Invoked as a sub-workflow',
-  inputSchema: [{ name: 'text', type: 'string' }],
+  inputSchema: [{ key: 'text', type: 'string' }],
   calledBy: ['parent-workflow-id'],
 } satisfies SubworkflowTrigger
 ```
 
 **Optional fields:**
-- `inputSchema` — Array of `{ name: string, type: 'string' | 'number' | 'boolean' | 'array' | 'object' }` matching the n8n `executeWorkflowTrigger` inputs
+- `inputSchema` — Array of `{ key: string, type: 'string' | 'number' | 'boolean' | 'array' | 'object' }` matching the n8n `executeWorkflowTrigger` inputs
 - `calledBy` — Array of `workflowTemplateId` values for parent workflows
 
 > **Note:** Sub-workflows do not include Codika Init/Submit/Report nodes. They start with `Execute Workflow Trigger`.

@@ -597,7 +597,7 @@ Sub-workflows have a different trigger configuration:
       title: 'Helper',
       description: 'Called by other workflows',
       inputSchema: [
-        { name: 'input_text', type: 'string' },
+        { key: 'input_text', type: 'string' },
       ],
       calledBy: ['main-workflow'],
     }

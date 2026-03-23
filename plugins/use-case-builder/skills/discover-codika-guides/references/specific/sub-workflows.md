@@ -35,8 +35,8 @@ Define a sub-workflow using the `subworkflow` trigger type:
       title: 'Process Data',
       description: 'Called by other workflows to process data.',
       inputSchema: [
-        { name: 'text', type: 'string' },
-        { name: 'count', type: 'number' },
+        { key: 'text', type: 'string' },
+        { key: 'count', type: 'number' },
       ],
       calledBy: ['main-workflow'],  // Optional: documents which workflows call this
     }
@@ -52,7 +52,7 @@ Define a sub-workflow using the `subworkflow` trigger type:
 | Field | Required | Description |
 |-------|----------|-------------|
 | `type` | Yes | Set to `'subworkflow'` |
-| `inputSchema` | Yes | Array of `{ name: string, type: InputType }` entries |
+| `inputSchema` | Yes | Array of `{ key: string, type: InputType }` entries |
 | `calledBy` | No | Array of parent workflow template IDs (documentation only) |
 | `outputSchema` | Yes | Set to `[]` (empty array) |
 | `cost` | Yes | Set to `0` (parent pays) |
@@ -64,6 +64,8 @@ Define a sub-workflow using the `subworkflow` trigger type:
 - `boolean` - True/false
 - `array` - List of items
 - `object` - Nested object
+
+> **Note:** Both HTTP and subworkflow triggers use `key` for input schema entries, ensuring consistency across trigger types.
 
 ---
 
@@ -292,7 +294,7 @@ A text transformation helper that does not need execution metadata.
       title: 'Transform Text',
       description: 'Transforms text to uppercase and adds timestamp.',
       inputSchema: [
-        { name: 'text', type: 'string' },
+        { key: 'text', type: 'string' },
       ],
       calledBy: ['main-workflow'],
     }
@@ -367,12 +369,12 @@ A file upload helper that requires execution metadata.
       title: 'Upload File',
       description: 'Downloads a file from URL and uploads to Codika storage.',
       inputSchema: [
-        { name: 'fileUrl', type: 'string' },
-        { name: 'fieldKey', type: 'string' },
-        { name: 'fileName', type: 'string' },
-        { name: 'mimeType', type: 'string' },
-        { name: 'executionId', type: 'string' },
-        { name: 'executionSecret', type: 'string' },
+        { key: 'fileUrl', type: 'string' },
+        { key: 'fieldKey', type: 'string' },
+        { key: 'fileName', type: 'string' },
+        { key: 'mimeType', type: 'string' },
+        { key: 'executionId', type: 'string' },
+        { key: 'executionSecret', type: 'string' },
       ],
       calledBy: ['video-generator', 'pdf-creator'],
     }
@@ -617,7 +619,7 @@ If your subworkflow truly needs no input, add a meaningful context parameter suc
 ### Sub-workflow configuration (config.ts)
 
 - [ ] `type: 'subworkflow'` trigger
-- [ ] `inputSchema` array with **at least 1** `{ name, type }` entry (REQUIRED)
+- [ ] `inputSchema` array with **at least 1** `{ key, type }` entry (REQUIRED)
 - [ ] `description` documenting the sub-workflow purpose
 - [ ] `calledBy` array listing parent workflows (optional but recommended)
 - [ ] `outputSchema: []` (required, empty)
