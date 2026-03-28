@@ -17,6 +17,8 @@ This is a **marketplace** — it contains multiple independent plugins, each wit
 │   │   └── skills/
 │   │       ├── setup-codika/
 │   │       ├── create-project/
+│   │       ├── create-organization/
+│   │       ├── create-organization-key/
 │   │       ├── deploy-use-case/
 │   │       ├── deploy-data-ingestion/
 │   │       ├── deploy-documents/
@@ -54,6 +56,8 @@ Skills for the `codika` CLI (`codika`). Pure documentation — no code, no depen
 |-------|-------------|
 | `setup-codika` | Install the CLI globally and run `codika login` |
 | `create-project` | Create a project via `codika project create` |
+| `create-organization` | Create an organization via `codika organization create` |
+| `create-organization-key` | Create an organization API key via `codika organization create-key` |
 | `deploy-use-case` | Validate then deploy via `codika verify` + `codika deploy` |
 | `deploy-data-ingestion` | Deploy data ingestion config via `codika deploy process-data-ingestion` |
 | `deploy-documents` | Upload stage documents via `codika deploy documents` |
