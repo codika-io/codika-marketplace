@@ -52,7 +52,7 @@ Both architectures need the same platform plumbing. Details are inside each deep
 
    The agent then falls through to its error handler and the user sees the fallback message instead of the real response. See `product-builder/skills/setup-neon/SKILL.md §6b` for the full story.
 
-5. **Deployment parameter `USER_BOT_PHONE`** — the Twilio WhatsApp number the bot receives on, formatted `+14436478971`. Every `codika deploy use-case` re-applies `defaultDeploymentParameters` from `config.ts`, so set the default there rather than relying on `codika redeploy --param`.
+5. **Deployment parameter `USER_BOT_PHONE`** — the Twilio WhatsApp number the bot receives on, formatted `+14436478971`. Every `codika deploy use-case` re-applies `defaultDeploymentParameters` from `config.ts`, so set the default there rather than relying on `codika rerun deployment --param`.
 
 ## What the deep guides cover that this landing doesn't
 

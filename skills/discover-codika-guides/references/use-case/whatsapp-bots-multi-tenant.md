@@ -179,7 +179,7 @@ Per-tenant schemas live in their OWN Postgres schemas so they don't collide, e.g
 }
 ```
 
-Every `codika deploy use-case` re-applies `defaultDeploymentParameters`. If you redeploy with `codika redeploy --param USER_BOT_PHONE=...`, a subsequent `deploy use-case` will overwrite that override. Keep the default in `config.ts` current.
+Every `codika deploy use-case` re-applies `defaultDeploymentParameters`. If you rerun the deployment with `codika rerun deployment --param USER_BOT_PHONE=...`, a subsequent `deploy use-case` will overwrite that override. Keep the default in `config.ts` current.
 
 ---
 
@@ -508,7 +508,7 @@ EOF
 
 `process_instance_id` is the **stable** lookup key for updates — never use the DB UUID. If you resend the same `create` payload with a different body, the handler recognizes it as an update.
 
-### 7.2 Update bot (most common: subworkflow_id changed after a redeploy)
+### 7.2 Update bot (most common: subworkflow_id changed after a deployment rerun)
 
 ```bash
 codika trigger http-manage-bot --path processes/bot-orchestrator --poll --payload-file - <<'EOF'
@@ -761,7 +761,7 @@ Look for `executionStatus: "error"` inside `_subExecutions.<nodeName>.data.resul
 | Welcome template shows `category: "MARKETING"` in the DB after the poll | Submitted with `allow_category_change: true` (the default) and Meta auto-reclassified | Patch `sub-create-system-template` to send `allow_category_change: false`. Delete the MARKETING row, rewrite copy as UTILITY-compatible, re-provision. |
 | Template rejected: `Variables can't be at the start or end of the template` (`code=2388299`) | Body begins or ends with `{{n}}` | Prefix/suffix with text (e.g. `Bonjour {{1}}, …` or `…{{2}}.`). |
 | User sends a message and gets nothing back; `codika list executions` shows zero `main-router` runs | Twilio webhook was registered with fake creds, or credentials changed after activation | `codika instance deactivate <id>` then `codika instance activate <id>`. This re-registers Twilio Event Streams with current creds. |
-| `isOrchestratorBot` always false inside main-router | `USER_BOT_PHONE` deployment parameter doesn't match the number Twilio is sending `to` | Update `defaultDeploymentParameters.USER_BOT_PHONE` in `config.ts` and redeploy, OR `codika redeploy --path . --param USER_BOT_PHONE=<real-number> --force`. |
+| `isOrchestratorBot` always false inside main-router | `USER_BOT_PHONE` deployment parameter doesn't match the number Twilio is sending `to` | Update `defaultDeploymentParameters.USER_BOT_PHONE` in `config.ts` and run `codika deploy use-case`, OR `codika rerun deployment --path . --param USER_BOT_PHONE=<real-number> --force`. |
 | Outbound send fails with Twilio error `63016 Failed to send freeform message because you are outside the allowed window` | 24-hour conversation window has expired; you're trying to send non-template content to a cold user | Send an approved UTILITY template via `http-send-template` first; resume freeform only after the user replies. |
 | Handler response reaches Twilio but user sees truncated text | Message >1600 chars and not chunked | Add the chunking loop from §8.1. |
 

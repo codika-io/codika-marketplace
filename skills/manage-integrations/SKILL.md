@@ -185,8 +185,8 @@ codika integration set cstm_acme_crm \
   --secrets '{"API_KEY":"acme_sk_xxx"}' \
   --path ./my-use-case --json
 
-# 4. Redeploy to activate
-codika redeploy --path ./my-use-case --force --json
+# 4. Rerun the deployment to activate
+codika rerun deployment --path ./my-use-case --force --json
 ```
 
 ## Error Handling

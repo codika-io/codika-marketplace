@@ -192,7 +192,7 @@ Priority order:
 |-------|-------|-----|
 | `Process instance ID is required` | No ID found from any source | Provide ID or ensure project.json has `devProcessInstanceId` |
 | `API key is required` | No API key found | Run `codika login` or set `CODIKA_API_KEY` |
-| `No skills found` | Process instance has no skills deployed | Deploy with skills: add `skills/` folder and redeploy |
+| `No skills found` | Process instance has no skills deployed | Deploy with skills: add `skills/` folder and run `codika deploy use-case` |
 | `401 Unauthorized` | Invalid API key | Run `codika login` to refresh credentials |
 
 ## Exit Codes

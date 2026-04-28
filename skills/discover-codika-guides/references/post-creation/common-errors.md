@@ -1099,7 +1099,7 @@ In `sub-create-system-template.json`, the HTTP Request node that hits `POST /v1/
 "jsonBody": "={{ JSON.stringify({ name: $json.friendlyName, category: $json.category, allow_category_change: false }) }}"
 ```
 
-Then delete the MARKETING row from `whatsapp_templates`, rewrite the body as transactional confirmation of a user action (e.g. "You've been added to {{2}} on Codika, {{1}}. This is your direct line for…"), redeploy the orchestrator, and re-trigger `http-provision-templates`. Meta will now either approve UTILITY as stated or reject outright — no silent flip.
+Then delete the MARKETING row from `whatsapp_templates`, rewrite the body as transactional confirmation of a user action (e.g. "You've been added to {{2}} on Codika, {{1}}. This is your direct line for…"), deploy the orchestrator again with `codika deploy use-case`, and re-trigger `http-provision-templates`. Meta will now either approve UTILITY as stated or reject outright — no silent flip.
 
 ---
 
@@ -1120,7 +1120,7 @@ Prefix or suffix the body with plain text:
 - BAD:  `{{1}}, tu as été ajouté à {{2}}…`
 - GOOD: `Bonjour {{1}}, tu as été ajouté à {{2}} sur Codika…`
 
-Delete the rejected row from `whatsapp_templates`, update the copy in the `SYSTEM_TEMPLATES` array inside `http-provision-templates.json`, redeploy, re-trigger provisioning.
+Delete the rejected row from `whatsapp_templates`, update the copy in the `SYSTEM_TEMPLATES` array inside `http-provision-templates.json`, deploy again with `codika deploy use-case`, re-trigger provisioning.
 
 ---
 

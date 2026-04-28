@@ -1,19 +1,28 @@
 ---
-name: redeploy-use-case
-description: Redeploys an existing Codika process instance with different parameters without creating a new template version. Use when the user wants to change deployment parameters (phone numbers, API keys, config values), retry a failed deployment, or switch configuration on an already-deployed instance.
+name: rerun-deployment
+description: Reruns an existing deployment with the same template version, refreshing credentials and optionally swapping runtime parameters (phone numbers, API keys, INSTPARM values). Re-pushes workflows to n8n in-place. Does NOT upload local code changes — if you edited config.ts or any file in workflows/, use deploy-use-case instead. CLI: `codika rerun deployment`.
 ---
 
-# Redeploy Use Case
+# Rerun Deployment
 
-Redeploy an existing process instance with different parameters. Does NOT create a new template version — use `codika deploy use-case` for code changes instead.
+Re-run an existing deployment without creating a new template version. Refreshes credentials, optionally swaps deployment parameters, and re-pushes the workflows to n8n in-place — using the same template version that's already deployed.
+
+## ⚠️ Critical: this skill does NOT upload local file changes
+
+If you modified `config.ts` or any file under `workflows/`, use **`deploy-use-case`** instead.
+This skill only re-runs the existing remote deployment with its current template version, optionally with new runtime parameters.
+
+| Did you edit local files? | Skill |
+|---------------------------|-------|
+| Yes (config.ts or workflows/) | `deploy-use-case` |
+| No, only changing INSTPARM values / API keys / phone numbers | `rerun-deployment` |
+| No, deployment failed and you want to retry as-is | `rerun-deployment` |
 
 ## When to Use
 
 - Changing deployment parameters (phone numbers, API keys, config values) on an existing instance
-- Retrying a failed deployment
+- Retrying a failed deployment without code changes
 - Switching configuration after publishing (e.g., dev phone number changes after prod publish)
-
-**Do NOT use for deploying new code changes** — use `codika deploy use-case` for that (see `deploy-use-case` skill).
 
 ## Prerequisites
 
@@ -24,7 +33,7 @@ Redeploy an existing process instance with different parameters. Does NOT create
 ## Command
 
 ```bash
-codika redeploy [options]
+codika rerun deployment [options]
 ```
 
 ## Options
@@ -34,11 +43,11 @@ codika redeploy [options]
 | `--process-instance-id <id>` | Target process instance ID (explicit) |
 | `--path <path>` | Use case folder (resolves from project.json, default: cwd) |
 | `--project-file <path>` | Custom project file (e.g., `project-wat.json`) |
-| `--environment <env>` | `dev` (default) or `prod` — which instance to redeploy |
+| `--environment <env>` | `dev` (default) or `prod` — which instance to rerun |
 | `--param <KEY=VALUE>` | Set deployment parameter (repeatable) |
 | `--params <json>` | JSON string with all parameters (agent-friendly) |
 | `--params-file <path>` | JSON file with parameter overrides |
-| `--force` | Force redeploy even if deployment is not in failed state |
+| `--force` | Force rerun even if deployment is not in failed state |
 | `--api-url <url>` | Override API URL |
 | `--api-key <key>` | Override API key |
 | `--json` | Output result as JSON |
@@ -71,7 +80,7 @@ If no parameters are provided at all, the existing deployment parameters are pre
 When calling from agent automation, prefer `--params` with inline JSON and `--json` output:
 
 ```bash
-codika redeploy --path /path/to/use-case \
+codika rerun deployment --path /path/to/use-case \
   --params '{"USER_BOT_PHONE":"+1234567890","COMMUNITY_NAME":"My Community"}' \
   --force --json
 ```
@@ -79,7 +88,7 @@ codika redeploy --path /path/to/use-case \
 With a custom project file:
 
 ```bash
-codika redeploy --path /path/to/use-case \
+codika rerun deployment --path /path/to/use-case \
   --project-file project-client.json \
   --params '{"USER_BOT_PHONE":"+1234567890"}' \
   --force --json
@@ -90,43 +99,43 @@ codika redeploy --path /path/to/use-case \
 **Change a single parameter:**
 
 ```bash
-codika redeploy --path . --param USER_BOT_PHONE=+NEW --force
+codika rerun deployment --path . --param USER_BOT_PHONE=+NEW --force
 ```
 
 **Change multiple parameters:**
 
 ```bash
-codika redeploy --path . --param KEY1=VAL1 --param KEY2=VAL2 --force
+codika rerun deployment --path . --param KEY1=VAL1 --param KEY2=VAL2 --force
 ```
 
 **Agent: pass all params as JSON:**
 
 ```bash
-codika redeploy --path . --params '{"KEY1":"VAL1","KEY2":"VAL2"}' --force --json
+codika rerun deployment --path . --params '{"KEY1":"VAL1","KEY2":"VAL2"}' --force --json
 ```
 
 **From file:**
 
 ```bash
-codika redeploy --path . --params-file ./deploy-params.json --force
+codika rerun deployment --path . --params-file ./deploy-params.json --force
 ```
 
 **Retry a failed deployment (no param changes):**
 
 ```bash
-codika redeploy --path .
+codika rerun deployment --path .
 ```
 
-**Redeploy prod instance:**
+**Rerun prod deployment:**
 
 ```bash
-codika redeploy --path . --environment prod --force
+codika rerun deployment --path . --environment prod --force
 ```
 
 **Custom project file (multi-project use cases):**
 
 ```bash
-codika redeploy --path . --project-file project-wat.json --force
+codika rerun deployment --path . --project-file project-wat.json --force
 ```
 
 ## Expected Output
@@ -134,7 +143,7 @@ codika redeploy --path . --project-file project-wat.json --force
 **Success (human-readable):**
 
 ```
-✓ Redeployed successfully!
+✓ Deployment rerun successfully!
 
   Status:          deployed
   Instance ID:     <deploymentInstanceId>
@@ -158,7 +167,7 @@ codika redeploy --path . --project-file project-wat.json --force
 **Error (human-readable):**
 
 ```
-✗ Redeploy failed: <error_code> — <error_message>
+✗ Rerun failed: <error_code> — <error_message>
 ```
 
 ## Relationship to Other Commands
@@ -167,9 +176,9 @@ codika redeploy --path . --project-file project-wat.json --force
 |---------|---------|
 | `codika deploy use-case` | Creates NEW template versions with code changes |
 | `codika publish` | Promotes a dev template to production |
-| `codika redeploy` | Changes PARAMETERS on existing instances (no new version) |
+| `codika rerun deployment` | Re-runs an existing deployment (same template, optional new params) |
 
-Use `deploy use-case` when workflows or `config.ts` changed. Use `redeploy` when only runtime parameters need updating.
+Use `deploy use-case` when workflows or `config.ts` changed. Use `rerun deployment` when only runtime parameters need updating, or to retry a failed deployment.
 
 ## Error Handling
 
@@ -178,14 +187,14 @@ Use `deploy use-case` when workflows or `config.ts` changed. Use `redeploy` when
 | "API key is required" | Not authenticated | Run `codika login` (see `setup-codika` skill) |
 | "Process instance not found" | Invalid instance ID or missing project.json | Check `project.json` has correct `devProcessInstanceId` / `prodProcessInstanceId` |
 | "Deployment currently in progress" | Another deployment is running | Wait for it to complete, then retry |
-| "Deployment is not in failed state" | Trying to redeploy a healthy instance without `--force` | Add `--force` flag |
+| "Deployment is not in failed state" | Trying to rerun a healthy instance without `--force` | Add `--force` flag |
 | 401 / Unauthorized | Invalid or expired API key | Run `codika whoami`, then `codika login` |
 | "No process instance ID found" | Missing `--process-instance-id` and no ID in project file | Deploy first with `codika deploy use-case .` or provide `--process-instance-id` |
 
 ## Exit Codes
 
-- `0` — Redeployment successful
-- `1` — Redeployment failed (API error)
+- `0` — Rerun successful
+- `1` — Rerun failed (API error)
 - `2` — CLI validation error (missing flags, invalid parameters)
 
 ## Authentication

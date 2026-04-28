@@ -13,7 +13,7 @@ Retrieve the current state of a deployed process instance, including its deploym
 - Verifying the deployment status or version of an instance
 - Checking which workflows are deployed and their n8n workflow IDs
 - Confirming an instance is active before triggering workflows
-- Debugging parameter issues after a redeploy
+- Debugging parameter issues after a deployment rerun
 
 ## Prerequisites
 
@@ -24,9 +24,9 @@ Retrieve the current state of a deployed process instance, including its deploym
 ## Typical Workflow
 
 1. Deploy a use case (see `deploy-use-case` skill)
-2. Redeploy with parameters (see `redeploy-use-case` skill)
+2. Rerun the deployment with parameters (see `rerun-deployment` skill)
 3. Use this command to verify the parameters are set correctly
-4. If incorrect, redeploy with corrected parameters
+4. If incorrect, rerun the deployment with corrected parameters
 
 ## Command
 

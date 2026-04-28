@@ -61,7 +61,7 @@ Pure documentation-based skills that wrap the `codika` CLI. No code, no secrets.
 | `init-use-case` | Scaffold a new use case |
 | `verify-use-case` | Validate workflows without deploying |
 | `deploy-use-case` | Validate then deploy via `codika verify` + `codika deploy` |
-| `redeploy-use-case` | Redeploy with parameter changes |
+| `rerun-deployment` | Rerun an existing deployment with refreshed credentials and parameter changes |
 | `publish-use-case` | Publish a deployment to production |
 | `fetch-use-case` | Download a deployed use case |
 | `deploy-documents` | Upload stage documents |
@@ -106,6 +106,10 @@ Codika is a multi-tenant SaaS platform for building, deploying, and managing bus
 ## Contributing
 
 See `CLAUDE.md` for conventions and instructions on adding new skills or agents.
+
+## History
+
+- **v3.0.0** — Renamed `redeploy-use-case` → `rerun-deployment` and `codika redeploy` → `codika rerun deployment` (verb-noun subcommand) to eliminate persistent agent confusion with `deploy-use-case`. The "rerun" verb is lexically distinct from "deploy", so agents stop pattern-matching the two skills as a pair. Backend Cloud Function `redeployDeploymentInstance` is unchanged.
 
 ## License
 

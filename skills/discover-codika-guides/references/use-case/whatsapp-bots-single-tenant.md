@@ -165,7 +165,7 @@ defaultDeploymentParameters: {
 }
 ```
 
-Every `codika deploy use-case` re-applies `defaultDeploymentParameters`. Keep defaults in `config.ts` current, not in ad-hoc `codika redeploy --param` calls.
+Every `codika deploy use-case` re-applies `defaultDeploymentParameters`. Keep defaults in `config.ts` current, not in ad-hoc `codika rerun deployment --param` calls.
 
 ---
 

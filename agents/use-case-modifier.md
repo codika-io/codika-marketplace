@@ -139,7 +139,8 @@ After modifications are complete, present:
 2. **Files changed** — list with brief description of each change
 3. **New integrations** — any new integrations the user needs to configure
 4. **Breaking changes** — anything that might affect existing deployments
-5. **Deployment command** — `codika deploy use-case <path>` to deploy the updated version
+5. **Deployment** — Invoke the `deploy-use-case` skill (CLI equivalent: `codika deploy use-case <path>`).
+   **Do NOT use `rerun-deployment` / `codika rerun deployment`** — that skill silently ignores local file changes and only re-runs the existing deployment with its current template. Since you just modified files, the only correct deployment path is `deploy-use-case`.
 
 ## Key Principles
 

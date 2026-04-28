@@ -174,7 +174,7 @@ codika instance activate pi_prod_789 --json
 |---------|---------|
 | `codika instance activate` | Resume workflows on an existing instance |
 | `codika instance deactivate` | Pause workflows without undeploying |
-| `codika redeploy` | Change parameters on an existing instance |
+| `codika rerun deployment` | Change parameters on an existing instance |
 | `codika deploy use-case` | Deploy new code changes (creates new version) |
 
 ## Error Handling
@@ -184,7 +184,7 @@ codika instance activate pi_prod_789 --json
 | "API key is required" | Not authenticated | Run `codika login` (see `setup-codika` skill) |
 | "Process instance not found" | Invalid instance ID or missing project.json | Check `project.json` has correct `devProcessInstanceId` / `prodProcessInstanceId` |
 | "Instance already active/inactive" | Instance is already in the target state | No action needed |
-| "Instance in failed state" | Cannot activate a failed instance | Fix with `codika redeploy` first |
+| "Instance in failed state" | Cannot activate a failed instance | Fix with `codika rerun deployment` first |
 | 401 / Unauthorized | Invalid or expired API key | Run `codika whoami`, then `codika login` |
 
 ## Exit Codes

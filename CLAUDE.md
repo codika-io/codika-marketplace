@@ -23,7 +23,7 @@ The repo root IS the plugin root — no `plugins/` wrapper, no marketplace layer
 │   ├── init-use-case/
 │   ├── verify-use-case/
 │   ├── deploy-use-case/
-│   ├── redeploy-use-case/
+│   ├── rerun-deployment/
 │   ├── publish-use-case/
 │   ├── fetch-use-case/
 │   ├── deploy-documents/
