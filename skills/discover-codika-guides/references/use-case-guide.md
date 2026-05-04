@@ -1178,6 +1178,31 @@ Custom integrations use the same credential placeholder patterns as built-in int
 | `httpQueryAuth` | API key as query parameter |
 | `none` | No n8n credential (metadata only) |
 
+### ⚠️ httpHeaderAuth sends the value verbatim
+
+`httpHeaderAuth` sets a single HTTP header — the field mapped to `value` becomes the header value, **with no transformation**. There is no automatic `Bearer ` prefixing or any other rewriting done by Codika or by n8n.
+
+So if the target API expects `Authorization: Bearer <token>`, the user must enter `Bearer <token>` (with the prefix) into the secret field. If they only paste the bare token, the request goes out as `Authorization: <token>` and the API rejects it (often with a generic 401 or 422 that gives no hint about the missing prefix).
+
+**Always make this explicit in your `secretFields[].description` and `placeholder`**:
+
+```typescript
+secretFields: [
+  {
+    key: 'API_KEY',
+    label: 'API Key (full Authorization value)',
+    type: 'password',
+    description:
+      'Full Authorization header value, INCLUDING the "Bearer " or "token " prefix ' +
+      'if the API requires one. Sent verbatim — no automatic prefixing.',
+    placeholder: 'Bearer sk_live_...',
+    required: true,
+  },
+]
+```
+
+For a worked GitHub example (token format, common API operations, troubleshooting), see [integrations/github.md](./integrations/github.md).
+
 > See [placeholder-patterns.md](./specific/placeholder-patterns.md) for complete placeholder reference including custom integration examples.
 
 ---
