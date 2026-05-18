@@ -163,13 +163,13 @@ codika integration set cstm_github \
   --force
 ```
 
-Then redeploy so the workflows bind to the new n8n credential ID:
+Then re-run the deployment so the workflows bind to the new n8n credential ID:
 
 ```bash
-codika redeploy --process-instance-id <PROCESS_INSTANCE_ID> --environment <dev|prod> --force
+codika rerun deployment --process-instance-id <PROCESS_INSTANCE_ID> --environment <dev|prod> --force
 ```
 
-To rotate the PAT later, re-run the same `integration set` (the `--force` flag deletes + recreates the credential), then redeploy.
+To rotate the PAT later, re-run the same `integration set` (the `--force` flag deletes + recreates the credential), then re-run the deployment.
 
 ---
 
@@ -418,8 +418,8 @@ Two GitHub-side gotchas worth lifting if you build something similar:
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| HTTP 422 "Validation Failed" with `"The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them"` | Token sent without `Bearer ` prefix → request hits GitHub unauthenticated → search on private repo returns this error | Re-set credential: `--secret 'GITHUB_TOKEN=Bearer github_pat_...'`, then `codika redeploy --force` |
-| HTTP 401 "Bad credentials" | Token revoked / expired / wrong | Generate fresh PAT, re-set credential, redeploy |
+| HTTP 422 "Validation Failed" with `"The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them"` | Token sent without `Bearer ` prefix → request hits GitHub unauthenticated → search on private repo returns this error | Re-set credential: `--secret 'GITHUB_TOKEN=Bearer github_pat_...'`, then `codika rerun deployment --force` |
+| HTTP 401 "Bad credentials" | Token revoked / expired / wrong | Generate fresh PAT, re-set credential, re-run the deployment |
 | HTTP 404 on a private repo | Token doesn't have access to the repo (fine-grained PAT scoped to wrong repos) | Regenerate PAT with the correct repository selection |
 | HTTP 403 "Resource not accessible by personal access token" | Missing permission on the fine-grained PAT (e.g. `Contents` is Read but you're trying to write) | Edit PAT permissions in GitHub settings, no need to regenerate |
 | HTTP 422 "Reference already exists" on Create Branch | Branch with that name already exists from a prior run | Use a unique branch name (e.g. include a timestamp suffix) or delete + retry |
